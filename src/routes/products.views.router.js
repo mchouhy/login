@@ -32,6 +32,7 @@ productsViewsRouter.get("/", async (request, response) => {
       query,
       sort,
       limit,
+      user: request.session.user,
     });
   } catch (error) {
     console.log("Error al obtener los productos de la base de datos.", error);
