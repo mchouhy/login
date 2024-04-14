@@ -4,6 +4,8 @@ import { Router } from "express";
 const sessionsApiRouter = Router();
 // Importación del model de user:
 import UserModel from "../../models/user.model.js";
+// Importación de la función de hasheo de contraseñas:
+import { createHash, isValidPassword } from "../../utils/hashbcrypt.js";
 
 // Ruta POST de register:
 sessionsApiRouter.post("/", async (request, response) => {
@@ -29,7 +31,7 @@ sessionsApiRouter.post("/", async (request, response) => {
       last_name,
       age,
       email,
-      password,
+      password: createHash(password),
       role,
     });
     // Creación de la session:
