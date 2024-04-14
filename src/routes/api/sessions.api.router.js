@@ -53,7 +53,7 @@ sessionsApiRouter.post("/login", async (request, response) => {
   try {
     const user = await UserModel.findOne({ email: email });
     if (user) {
-      if (user.password === password) {
+      if (isValidPassword(password, user)) {
         request.session.login = true;
         request.session.user = {
           first_name: user.first_name,
