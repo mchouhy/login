@@ -80,5 +80,5 @@ app.get("/", (request, response) => {
 // PUERTO:
 // Función que escucha cualquier cambio en el servidor:
 app.listen(PORT, () =>
-  console.log(`Escuchando cualquier cambio en el puerto ${PORT}`)
+  console.log(`Escuchando cualquier cambio en el puerto: localhost:${PORT}`)
 );
