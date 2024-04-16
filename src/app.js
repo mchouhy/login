@@ -25,6 +25,10 @@ import "./mongoDB.js";
 import session from "express-session";
 // Importación de Mongo Connect para guardar las sesiones de usuario:
 import MongoStore from "connect-mongo";
+// Importación de Passport:
+import passport from "passport";
+// Importación de la función para inicializar Passport:
+import initializePassport from "./config/passport.config.js";
 
 // MIDDLEWARES:
 // Directorio raíz desde el cual Express servirá los archivos estáticos cuando se realicen solicitudes HTTP:
@@ -49,6 +53,11 @@ app.use(
     }),
   })
 );
+
+// PASSPORT:
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 // HANDLEBARS:
 // Aplicación del motor de plantillas Handlebars a todos los archivos con la extensión ".handlebars":

@@ -45,7 +45,7 @@ const initializePassport = () => {
   );
 
   // Creación de la estrategia de passport para el login de usuarios:
-  passport.user(
+  passport.use(
     "login",
     new LocalStrategy(
       { usernameField: "email" },
@@ -66,6 +66,16 @@ const initializePassport = () => {
       }
     )
   );
+
+  // Serialización y desialización de usuarios:
+  passport.serializeUser((user, done) => {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    let user = await UserModel.findById({ _id: id });
+    done(null, user);
+  });
 };
 
 export default initializePassport;
