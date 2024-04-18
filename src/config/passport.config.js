@@ -4,7 +4,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 // Importación de UserModel:
 import UserModel from "../models/user.model.js";
 // Importación de las funciones de bcrypt:
-import { createHash, isValidPassword } from "../utils/hashbcrypt";
+import { createHash, isValidPassword } from "../utils/hashbcrypt.js";
 
 const initializePassport = () => {
   // Creación de la estrategia de passport para el registro de usuarios:
