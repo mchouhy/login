@@ -9,7 +9,7 @@ import passport from "passport";
 sessionsApiRouter.post(
   "/",
   passport.authenticate("register", {
-    failureRedirect: "/register-failed",
+    failureRedirect: "/api/sessions/register-failed",
   }),
   async (request, response) => {
     if (!request.user)
@@ -61,7 +61,7 @@ sessionsApiRouter.post(
 );
 
 // Ruta GET de fallo de login:
-sessionsApiRouter.get("login-failed", (request, response) => {
+sessionsApiRouter.get("/login-failed", (request, response) => {
   response.send("Error. Fallo al iniciar sesión. Intente nuevamente.");
 });
 
