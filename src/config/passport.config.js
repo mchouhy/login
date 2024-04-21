@@ -6,7 +6,7 @@ import UserModel from "../models/user.model.js";
 // Importación de las funciones de bcrypt:
 import { createHash, isValidPassword } from "../utils/hashbcrypt.js";
 // Importación de la estrategia de github de passport:
-import { Strategy as GitHubStrategy } from "passport-github2";
+import GitHubStrategy from "passport-github2";
 
 const initializePassport = () => {
   // Creación de la estrategia de passport para el registro de usuarios:
@@ -91,13 +91,14 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           let user = await UserModel.findOne({ email: profile._json.email });
+          console.log(profile);
           if (!user) {
             let newUser = {
               first_name: profile._json.name,
               last_name: "Usuario",
               age: 36,
               email: profile._json.email,
-              password: "",
+              password: "antihack",
             };
             let result = await UserModel.create(newUser);
             done(null, result);

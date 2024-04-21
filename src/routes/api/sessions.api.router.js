@@ -78,19 +78,19 @@ sessionsApiRouter.get("/logout", (request, response) => {
 sessionsApiRouter.get(
   "/github",
   passport.authenticate("github", {
-    scope: ["user: email"],
+    scope: ["user:email"],
   }),
   async (request, response) => {}
 );
 
 sessionsApiRouter.get(
   "/githubcallback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
+  passport.authenticate("github", { failureRedirect: "/session/login" }),
   async (request, response) => {
     // Agregamos el usuario que viene de Github al objeto de sesión:
     request.session.user = request.user;
     request.session.login = true;
-    response.redirect("/profile");
+    response.redirect("/session/profile");
   }
 );
 
