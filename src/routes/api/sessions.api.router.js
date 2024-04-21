@@ -5,6 +5,7 @@ const sessionsApiRouter = Router();
 // Importación de Passport:
 import passport from "passport";
 
+// VERSIÓN DE PASSPORT LOCAL:
 // Ruta POST de register con Passport Local:
 sessionsApiRouter.post(
   "/",
@@ -72,6 +73,26 @@ sessionsApiRouter.get("/logout", (request, response) => {
   }
   response.redirect("/session/login");
 });
+
+//VERSIÓN DE PASSPORT GITHUB:
+sessionsApiRouter.get(
+  "/github",
+  passport.authenticate("github", {
+    scope: ["user: email"],
+  }),
+  async (request, response) => {}
+);
+
+sessionsApiRouter.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (request, response) => {
+    // Agregamos el usuario que viene de Github al objeto de sesión:
+    request.session.user = request.user;
+    request.session.login = true;
+    response.redirect("/profile");
+  }
+);
 
 // Exportación del router del api de Sessions:
 export default sessionsApiRouter;

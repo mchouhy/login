@@ -5,6 +5,8 @@ import { Strategy as LocalStrategy } from "passport-local";
 import UserModel from "../models/user.model.js";
 // Importación de las funciones de bcrypt:
 import { createHash, isValidPassword } from "../utils/hashbcrypt.js";
+// Importación de la estrategia de github de passport:
+import { Strategy as GitHubStrategy } from "passport-github2";
 
 const initializePassport = () => {
   // Creación de la estrategia de passport para el registro de usuarios:
@@ -76,6 +78,38 @@ const initializePassport = () => {
     let user = await UserModel.findById({ _id: id });
     done(null, user);
   });
+
+  // Estrategia de passport para Github:
+  passport.use(
+    "github",
+    new GitHubStrategy(
+      {
+        clientID: "Iv1.08050519f217277c",
+        clientSecret: "e0a22b3c92b45bba317380e227cd29d9e5101de8",
+        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          let user = await UserModel.findOne({ email: profile._json.email });
+          if (!user) {
+            let newUser = {
+              first_name: profile._json.name,
+              last_name: "Usuario",
+              age: 36,
+              email: profile._json.email,
+              password: "",
+            };
+            let result = await UserModel.create(newUser);
+            done(null, result);
+          } else {
+            done(null, user);
+          }
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
 };
 
 export default initializePassport;
