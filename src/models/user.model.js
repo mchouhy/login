@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
   },
+  visible: {
+    type: Boolean,
+  },
 });
 
 const UserModel = mongoose.model("user", userSchema);
